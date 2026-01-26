@@ -35,7 +35,7 @@ export const useCartStore = create<CartState>()(
                     tenantCarts: {
                         ...state.tenantCarts,
                         [tenantSlug]: {
-                            productIds: state.tenantCarts[productId]?.productIds.filter(
+                            productIds: state.tenantCarts[tenantSlug]?.productIds.filter(
                                 (id) => id !== productId
                             ) || [],
                         },
