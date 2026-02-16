@@ -1,6 +1,5 @@
 "use client";
 
-// TODO: add real ratings
 
 import { StarRating } from "@/components/star-rating";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
+import { toast } from "sonner";
 // import { CartButton } from "../components/cart-button";
 
 const CartButton = dynamic(
@@ -75,22 +75,25 @@ export const ProductView = ({productId, tenantSlug}: ProductViewProps) => {
                                 </Link>
                             </div>
                             <div className="hidden lg:flex px-6 py-4 items-center justify-center">
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-2">
                                     <StarRating 
-                                        rating={4}
+                                        rating={data.reviewRating}
                                         iconClassName="size-4"
                                     />
+                                    <p className="text-base font-medium">
+                                    {data.reviewCount} ratings
+                                </p>
                                 </div>
                             </div>
                         </div>
                         <div className="block lg:hidden px-6 py-4 items-center justify-center border-b">
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
                                 <StarRating 
-                                    rating={4}
+                                    rating={data.reviewRating}
                                     iconClassName="size-4"
                                 />
                                 <p className="text-base font-medium">
-                                    {5} ratings
+                                    {data.reviewCount} ratings
                                 </p>
                             </div>
                         </div>
@@ -116,7 +119,10 @@ export const ProductView = ({productId, tenantSlug}: ProductViewProps) => {
                                     <Button
                                         className="size-12"
                                         variant={"elevated"}
-                                        onClick={()=>{}}
+                                        onClick={()=>{
+                                            navigator.clipboard.writeText(window.location.href);
+                                            toast.success("URL copied to clipboard")
+                                        }}
                                         disabled={false}
                                     >
                                         <LinkIcon />
@@ -134,8 +140,8 @@ export const ProductView = ({productId, tenantSlug}: ProductViewProps) => {
                                     <h3 className="text-xl font-medium">Ratings</h3>
                                     <div className="flex items-center gap-x-1 font-medium">
                                         <StarIcon className="size-4 fill-black" />
-                                        <p>({5})</p>
-                                        <p className="text-base">{5} ratings</p>
+                                        <p>({data.reviewRating})</p>
+                                        <p className="text-base">{data.reviewCount} ratings</p>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-4">
@@ -145,11 +151,11 @@ export const ProductView = ({productId, tenantSlug}: ProductViewProps) => {
                                                 {stars} {stars === 1 ? "star" : "stars"}
                                             </div>
                                             <Progress
-                                                value={25}
+                                                value={data.ratingDistribution[stars]}
                                                 className="h-[1lh]"
                                             />
                                             <div className="font-medium">
-                                                {25}%
+                                                {data.ratingDistribution[stars]}%
                                             </div>
                                         </Fragment>
                                     ))}
