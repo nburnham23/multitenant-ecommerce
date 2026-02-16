@@ -1,4 +1,3 @@
-// TODO: add real ratings. 
 
 import { formatCurrency, generateTenantURL } from "@/lib/utils";
 import { StarIcon } from "lucide-react";
